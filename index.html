@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Aritra & Srijani | Wedding Reception Invitation</title>
+  <meta name="description" content="You are cordially invited to celebrate the Wedding Reception of Aritra & Srijani on Monday, December 14, 2026 at Taj Garden, Kamalgazi, Garia from 7:00 PM onwards.">
+  
+  <!-- OpenGraph / WhatsApp / Facebook Preview Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aritra & Srijani | Wedding Reception Invitation 💍">
+  <meta property="og:description" content="Join us to celebrate the Wedding Reception of Aritra & Srijani on Monday, December 14, 2026 at Taj Garden, Kamalgazi, Garia from 7:00 PM onwards.">
+  <meta property="og:image" content="assets/couple.jpg">
+  <meta name="theme-color" content="#721121">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Aritra & Srijani | Wedding Reception Invitation 💍">
+  <meta name="twitter:description" content="Monday, Dec 14, 2026 • Taj Garden, Kamalgazi, Garia, Kolkata.">
+  <meta name="twitter:image" content="assets/couple.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Audio & Particle Controls -->
+  <div class="floating-controls" id="floatingControls">
+    <button class="control-btn music-btn" id="musicToggleBtn" title="Toggle Romantic Music" aria-label="Toggle Background Music">
+      <span class="btn-icon">🎵</span>
+      <span class="music-wave">
+        <span></span><span></span><span></span><span></span>
+      </span>
+    </button>
+    <button class="control-btn petal-btn" id="petalToggleBtn" title="Toggle Petals Shower" aria-label="Toggle Petal Shower">
+      <span class="btn-icon">🌸</span>
+    </button>
+  </div>
+
+  <!-- Background Falling Petals Canvas -->
+  <canvas id="petalsCanvas" class="petals-canvas"></canvas>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- Interactive Click Sparkles Container -->
+  <div id="sparkleContainer" class="sparkle-container"></div>
+
+  <!-- ==============================================
+       ROYAL ENVELOPE / CURTAIN OPENING OVERLAY
+       ============================================== -->
+  <div class="royal-unveil-overlay" id="unveilOverlay">
+    <!-- Left & Right Silk Curtains -->
+    <div class="curtain curtain-left" id="curtainLeft">
+      <div class="curtain-fabric"></div>
+      <div class="curtain-tassel"></div>
+    </div>
+    <div class="curtain curtain-right" id="curtainRight">
+      <div class="curtain-fabric"></div>
+      <div class="curtain-tassel"></div>
+    </div>
+
+    <!-- Center Royal Card / Wax Seal Envelope -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+      <div class="royal-envelope" id="royalEnvelope">
+        <!-- Envelope Flap Top -->
+        <div class="envelope-flap" id="envelopeFlap"></div>
+        
+        <!-- Letter Preview Peeking Inside -->
+        <div class="letter-card-preview">
+          <div class="preview-ornament">⚜️</div>
+          <p class="preview-heading">Wedding Reception</p>
+          <h2 class="preview-names">Aritra & Srijani</h2>
+          <p class="preview-date">14 • 12 • 2026</p>
+        </div>
+
+        <!-- Envelope Body -->
+        <div class="envelope-front">
+          <div class="gold-filigree-top"></div>
+          <div class="envelope-invitation-badge">
+            <span class="badge-sub">ROYAL INVITATION</span>
+            <h1 class="badge-title">Aritra <span>&</span> Srijani</h1>
+            <p class="badge-desc">You are cordially invited</p>
+          </div>
+          <div class="gold-filigree-bottom"></div>
+        </div>
+
+        <!-- Wax Seal Button -->
+        <div class="wax-seal-btn" id="waxSealBtn" role="button" tabindex="0" aria-label="Open Wedding Card">
+          <div class="wax-seal-outer">
+            <div class="wax-seal-inner">
+              <span class="seal-initials">A & S</span>
+              <span class="seal-heart">💖</span>
+            </div>
+          </div>
+          <div class="seal-glow-ring"></div>
+        </div>
+      </div>
+
+      <div class="unveil-hint" id="unveilHint">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <p class="hint-text">✨ Tap the Wax Seal or Scroll to Open ✨</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       MAIN INVITATION WEBPAGE
+       ============================================== -->
+  <main class="page-container" id="mainContent">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-overlay"></div>
+      <div class="floating-bokeh"></div>
+
+      <div class="hero-content">
+        <div class="traditional-symbol animate-fade-down">
+          <span class="om-swastik">॥ ॐ श्री गणेशाय नमः ॥</span>
+        </div>
+
+        <div class="invitation-intro animate-fade-up delay-1">
+          <span class="golden-dash"></span>
+          <span class="intro-tag">CELEBRATING LOVE & TOGETHERNESS</span>
+          <span class="golden-dash"></span>
+        </div>
+
+        <h3 class="hero-subtitle animate-fade-up delay-2">We cordially invite you to the Wedding Reception of</h3>
+
+        <div class="couple-names-wrapper animate-zoom-in delay-3">
+          <h1 class="groom-name">Aritra</h1>
+          <div class="heart-connector">
+            <span class="heart-pulse">💍</span>
+            <span class="ampersand">&</span>
+          </div>
+          <h1 class="bride-name">Srijani</h1>
+        </div>
+
+        <div class="date-venue-pill animate-fade-up delay-4">
+          <div class="pill-item">
+            <span class="pill-icon">📅</span>
+            <span class="pill-text"><strong>Monday, 14th December 2026</strong></span>
+          </div>
+          <div class="pill-divider"></div>
+          <div class="pill-item">
+            <span class="pill-icon">⏰</span>
+            <span class="pill-text"><strong>7:00 PM Onwards</strong></span>
+          </div>
+          <div class="pill-divider"></div>
+          <div class="pill-item">
+            <span class="pill-icon">📍</span>
+            <span class="pill-text"><strong>Taj Garden, Kamalgazi, Garia</strong></span>
+          </div>
+        </div>
+
+        <div class="hero-cta-group animate-fade-up delay-5">
+          <a href="#countdown" class="btn btn-gold">Save The Date</a>
+          <a href="#venue" class="btn btn-outline">View Venue & Map</a>
+          <a href="#blessings" class="btn btn-rose">Send Blessings 💌</a>
+        </div>
+      </div>
+
+      <!-- Cute Scroll Down Arrow -->
+      <a href="#couple" class="hero-scroll-indicator" aria-label="Scroll Down">
+        <span class="arrow-bounce">↓</span>
+      </a>
+    </section>
+
+
+    <!-- ==============================================
+         COUPLE SHOWCASE & CUTE AVATAR SECTION
+         ============================================== -->
+    <section class="section couple-section" id="couple">
+      <div class="section-container">
+        
+        <div class="section-header reveal">
+          <span class="section-badge">FOREVER BEGINS</span>
+          <h2 class="section-title">Meet The Bride & Groom</h2>
+          <div class="title-ornament">⚜️ 💖 ⚜️</div>
+          <p class="section-desc">Two hearts, countless smiles, and a promise of forever. We can't wait to celebrate our special day with you!</p>
+        </div>
+
+        <div class="couple-card-showcase reveal">
+          <div class="couple-art-frame">
+            <div class="art-glow"></div>
+            <img src="assets/couple.jpg" alt="Aritra and Srijani Cute Wedding Avatar" class="couple-img" id="couplePortrait">
+            <div class="couple-floating-tag left-tag">
+              <span>🤵</span> Aritra
+            </div>
+            <div class="couple-floating-tag right-tag">
+              <span>👰</span> Srijani
+            </div>
+          </div>
+
+          <div class="couple-bio-grid">
+            <!-- Groom Card -->
+            <div class="bio-card groom-card">
+              <div class="bio-avatar">🤵‍♂️</div>
+              <span class="bio-role">THE GROOM</span>
+              <h3 class="bio-name">Aritra</h3>
+              <p class="bio-text">Tech enthusiast, dreamer, and the one whose heart found its missing melody in Srijani's laughter.</p>
+              <div class="cute-tags">
+                <span class="cute-tag">✨ Big Smiles</span>
+                <span class="cute-tag">☕ Chai Lover</span>
+                <span class="cute-tag">💖 Ready for forever</span>
+              </div>
+            </div>
+
+            <!-- Heart Knot Card -->
+            <div class="bio-knot-card">
+              <div class="knot-circle">
+                <span class="knot-icon">💞</span>
+              </div>
+              <p class="knot-quote">"Together is our favorite place to be."</p>
+              <div class="knot-sub">Dec 14, 2026</div>
+            </div>
+
+            <!-- Bride Card -->
+            <div class="bio-card bride-card">
+              <div class="bio-avatar">👰‍♀️</div>
+              <span class="bio-role">THE BRIDE</span>
+              <h3 class="bio-name">Srijani</h3>
+              <p class="bio-text">Radiant soul, full of warmth, artistic grace, and the happiest smile that brightens up Aritra's world.</p>
+              <div class="cute-tags">
+                <span class="cute-tag">🌸 Sweetheart</span>
+                <span class="cute-tag">🎨 Creative Spirit</span>
+                <span class="cute-tag">✨ Dancing Queen</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         COUNTDOWN & SAVE THE DATE SECTION
+         ============================================== -->
+    <section class="section countdown-section" id="countdown">
+      <div class="section-container">
+        
+        <div class="countdown-card reveal">
+          <div class="card-sparkles"></div>
+
+          <span class="section-badge">MARK YOUR CALENDAR</span>
+          <h2 class="section-title text-gold">Counting Down To The Big Day</h2>
+          <p class="countdown-subtitle">December 14, 2026 • Taj Garden, Garia</p>
+
+          <!-- Live Timer Grid -->
+          <div class="timer-grid" id="timerGrid">
+            <div class="timer-box">
+              <div class="timer-circle">
+                <span class="timer-number" id="timerDays">00</span>
+              </div>
+              <span class="timer-label">DAYS</span>
+            </div>
+            <div class="timer-colon">:</div>
+            <div class="timer-box">
+              <div class="timer-circle">
+                <span class="timer-number" id="timerHours">00</span>
+              </div>
+              <span class="timer-label">HOURS</span>
+            </div>
+            <div class="timer-colon">:</div>
+            <div class="timer-box">
+              <div class="timer-circle">
+                <span class="timer-number" id="timerMinutes">00</span>
+              </div>
+              <span class="timer-label">MINUTES</span>
+            </div>
+            <div class="timer-colon">:</div>
+            <div class="timer-box">
+              <div class="timer-circle">
+                <span class="timer-number" id="timerSeconds">00</span>
+              </div>
+              <span class="timer-label">SECONDS</span>
+            </div>
+          </div>
+
+          <!-- Calendar Add Buttons -->
+          <div class="calendar-actions">
+            <button class="btn btn-calendar google-cal-btn" id="googleCalBtn">
+              <span class="btn-icon">📅</span> Add to Google Calendar
+            </button>
+            <button class="btn btn-calendar ical-btn" id="iCalBtn">
+              <span class="btn-icon">🍏</span> Apple / Outlook (.ics)
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         RECEPTION EVENING DETAILS
+         ============================================== -->
+    <section class="section event-details-section" id="event">
+      <div class="section-container">
+        
+        <div class="section-header reveal">
+          <span class="section-badge">THE RECEPTION GALA</span>
+          <h2 class="section-title">An Evening of Celebration</h2>
+          <div class="title-ornament">🥂 ✨ 🍛</div>
+          <p class="section-desc">Join us as we embark on this beautiful new chapter surrounded by family, love, music, and delicious food!</p>
+        </div>
+
+        <div class="event-highlight-grid reveal">
+          
+          <!-- Card 1: Time & Arrival -->
+          <div class="event-card">
+            <div class="event-card-icon">🕖</div>
+            <h3 class="event-card-title">Celebration Time</h3>
+            <p class="event-card-time">From 7:00 PM Onwards</p>
+            <p class="event-card-desc">The grand celebration kicks off at 7 PM. Arrive with your sweetest smiles and warmest blessings!</p>
+          </div>
+
+          <!-- Card 2: Celebrations & Stage -->
+          <div class="event-card popular-card">
+            <div class="popular-ribbon">HIGHLIGHT</div>
+            <div class="event-card-icon">👑</div>
+            <h3 class="event-card-title">Greetings & Stage</h3>
+            <p class="event-card-time">Memories & Joy</p>
+            <p class="event-card-desc">Couple stage appearances, heartfelt conversations, photography, and joyful meet & greets.</p>
+          </div>
+
+          <!-- Card 3: Royal Feast & Music -->
+          <div class="event-card">
+            <div class="event-card-icon">🍽️</div>
+            <h3 class="event-card-title">Feast & Melodies</h3>
+            <p class="event-card-time">Royal Bengali Feast</p>
+            <p class="event-card-desc">A lavish spread of mouth-watering delicacies, refreshing drinks, desserts, and soothing melodies.</p>
+          </div>
+
+        </div>
+
+        <!-- Cute Dress Code Banner -->
+        <div class="dress-code-banner reveal">
+          <div class="dress-icon">✨ 👗 👔</div>
+          <div class="dress-info">
+            <h4 class="dress-title">Dress Code Suggestion</h4>
+            <p class="dress-desc">Festive Indian Traditional / Indo-Western Glam (Pastels, Royal Blues, Golds & Maroons are lovely!)</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         VENUE & LOCATION MAP SECTION
+         ============================================== -->
+    <section class="section venue-section" id="venue">
+      <div class="section-container">
+        
+        <div class="section-header reveal">
+          <span class="section-badge">HOW TO REACH</span>
+          <h2 class="section-title">Venue & Location</h2>
+          <div class="title-ornament">📍 🏛️ 📍</div>
+          <p class="section-desc">We look forward to welcoming you at our venue in Kamalgazi, Garia!</p>
+        </div>
+
+        <div class="venue-showcase-card reveal">
+          <div class="venue-image-wrapper">
+            <img src="assets/venue_bg.jpg" alt="Taj Garden Venue Atmosphere" class="venue-img">
+            <div class="venue-overlay-badge">
+              <span>🏛️ Taj Garden</span>
+            </div>
+          </div>
+
+          <div class="venue-details-content">
+            <div class="venue-badge-pill">RECEPTION BANQUET</div>
+            <h3 class="venue-name">Taj Garden</h3>
+            <p class="venue-address">
+              <span>📍</span> Kamalgazi, Garia, Kolkata, West Bengal
+            </p>
+
+            <div class="venue-perks">
+              <div class="perk-item">
+                <span class="perk-icon">🚗</span>
+                <div>
+                  <strong>Valet & Parking Available</strong>
+                  <p>Spacious parking space for your convenience.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <span class="perk-icon">🚇</span>
+                <div>
+                  <strong>Accessible Location</strong>
+                  <p>Conveniently connected from Kavi Nazrul (Garia) Metro & EM Bypass.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="venue-actions">
+              <a href="https://www.google.com/maps/search/?api=1&query=Taj+Garden+Kamalgazi+Garia+Kolkata" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-large">
+                <span class="btn-icon">🗺️</span> Open In Google Maps
+              </a>
+              <button class="btn btn-outline" id="copyAddressBtn">
+                <span class="btn-icon">📋</span> Copy Address
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         PHOTO MEMORIES POLAROID WALL
+         ============================================== -->
+    <section class="section moments-section" id="moments">
+      <div class="section-container">
+        
+        <div class="section-header reveal">
+          <span class="section-badge">OUR CHERISHED MOMENTS</span>
+          <h2 class="section-title">A Little Glimpse Of Us</h2>
+          <div class="title-ornament">📸 💖 📸</div>
+          <p class="section-desc">Every smile shared is a step towards forever. Tap a polaroid to send love!</p>
+        </div>
+
+        <div class="polaroid-grid reveal">
+          
+          <!-- Polaroid 1 -->
+          <div class="polaroid-card polaroid-tilt-1">
+            <div class="polaroid-inner">
+              <div class="polaroid-pin">📌</div>
+              <div class="polaroid-img-box">
+                <img src="assets/couple.jpg" alt="Aritra & Srijani Romantic Moment">
+              </div>
+              <div class="polaroid-caption">
+                <p>When our smiles first aligned 💕</p>
+                <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">❤️ <span class="like-count">128</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polaroid 2 -->
+          <div class="polaroid-card polaroid-tilt-2">
+            <div class="polaroid-inner">
+              <div class="polaroid-pin">📌</div>
+              <div class="polaroid-img-box">
+                <img src="assets/venue_bg.jpg" alt="Magical Venue Dreams">
+              </div>
+              <div class="polaroid-caption">
+                <p>Dreaming of our special day 🏰</p>
+                <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">💖 <span class="like-count">94</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polaroid 3 -->
+          <div class="polaroid-card polaroid-tilt-3">
+            <div class="polaroid-inner">
+              <div class="polaroid-pin">📌</div>
+              <div class="polaroid-img-box">
+                <img src="assets/couple.jpg" alt="Aritra & Srijani Forever">
+              </div>
+              <div class="polaroid-caption">
+                <p>Forever & Always • Dec 14, 2026 🥂</p>
+                <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">✨ <span class="like-count">156</span></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         INTERACTIVE BLESSINGS & RSVP GUESTBOOK
+         ============================================== -->
+    <section class="section blessings-section" id="blessings">
+      <div class="section-container">
+        
+        <div class="section-header reveal">
+          <span class="section-badge">SHOWER YOUR LOVE</span>
+          <h2 class="section-title">Send Your Blessings & RSVP</h2>
+          <div class="title-ornament">💌 🌸 💌</div>
+          <p class="section-desc">Leave a sweet wish for Aritra & Srijani! Your blessing will appear instantly on our celebration wall.</p>
+        </div>
+
+        <div class="blessings-interactive-layout reveal">
+          
+          <!-- Blessing Form Card -->
+          <div class="blessing-form-card">
+            <h3 class="form-title">Write a Blessing / RSVP</h3>
+            <form id="blessingForm">
+              
+              <div class="form-group">
+                <label for="guestName">Your Name(s) *</label>
+                <input type="text" id="guestName" placeholder="e.g. Rahul & Sneha" required maxlength="50">
+              </div>
+
+              <div class="form-group">
+                <label for="attendanceStatus">Will you be joining our celebration? *</label>
+                <select id="attendanceStatus" required>
+                  <option value="Joyfully Attending with Family 👨‍👩‍👧">🎉 Joyfully Attending with Family (Yes!)</option>
+                  <option value="Attending Solo 🙋‍♂️">🙋‍♂️ Attending Solo</option>
+                  <option value="Sending Love & Blessings from Afar 💌">💌 Sending Love from Afar</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Choose a Cute Blessing Sticker</label>
+                <div class="sticker-selector" id="stickerSelector">
+                  <button type="button" class="sticker-btn active" data-sticker="💖 Loads of Love!">💖 Loads of Love</button>
+                  <button type="button" class="sticker-btn" data-sticker="✨ Best Wishes for Forever!">✨ Best Wishes</button>
+                  <button type="button" class="sticker-btn" data-sticker="💃 Ready to Dance all night!">💃 Ready to Dance</button>
+                  <button type="button" class="sticker-btn" data-sticker="🍛 Excited for the Royal Feast!">🍛 Royal Feast</button>
+                  <button type="button" class="sticker-btn" data-sticker="🥂 Cheers to the Beautiful Couple!">🥂 Cheers</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="blessingMessage">Your Message for Aritra & Srijani</label>
+                <textarea id="blessingMessage" rows="3" placeholder="Wishing you both a lifetime of happiness, laughter, and endless adventures! ✨" required maxlength="300"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-gold btn-block" id="submitBlessingBtn">
+                <span class="btn-icon">🎉</span> Post Blessing & Trigger Confetti
+              </button>
+
+            </form>
+          </div>
+
+          <!-- Live Blessing Wall -->
+          <div class="blessing-wall-container">
+            <div class="wall-header">
+              <h3 class="wall-title">Celebration Blessing Board</h3>
+              <span class="wall-count" id="blessingCountBadge">3 Wishes</span>
+            </div>
+
+            <div class="blessing-cards-list" id="blessingCardsList">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         CUTE FOOTER & SHARE BUTTONS
+         ============================================== -->
+    <footer class="footer-section">
+      <div class="footer-container">
+        
+        <div class="footer-monogram">
+          <span>A</span>
+          <span class="footer-heart">💖</span>
+          <span>S</span>
+        </div>
+
+        <h3 class="footer-title">Aritra & Srijani</h3>
+        <p class="footer-date">14th December 2026 • Taj Garden, Garia</p>
+        
+        <p class="footer-quote">"Your presence will make our celebration complete and truly memorable!"</p>
+
+        <div class="footer-share-actions">
+          <button class="btn btn-whatsapp" id="shareWhatsAppBtn">
+            <span class="btn-icon">💬</span> Share on WhatsApp
+          </button>
+          <button class="btn btn-outline-light" id="shareLinkBtn">
+            <span class="btn-icon">🔗</span> Share Invitation Link
+          </button>
+        </div>
+
+        <div class="footer-copy">
+          <p>With Warm Regards from the <strong>Podder & Family</strong> 🌸</p>
+          <p class="tiny-credit">Crafted with love for Aritra & Srijani's Reception</p>
+        </div>
+
+      </div>
+    </footer>
+
+  </main>
+
+
+  <!-- Bottom Scroll Walking Couple Progress Bar -->
+  <div class="scroll-couple-tracker" id="coupleTracker" title="Scroll Progress">
+    <div class="tracker-track">
+      <div class="tracker-progress" id="trackerProgress"></div>
+      <div class="tracker-groom" id="trackerGroom">🤵 Aritra</div>
+      <div class="tracker-center-heart" id="trackerHeart">💖</div>
+      <div class="tracker-bride" id="trackerBride">Srijani 👰</div>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toastNotification">
+    <span class="toast-icon">✨</span>
+    <span class="toast-msg" id="toastMsg">Notification</span>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
