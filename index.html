@@ -10,14 +10,14 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Aritra & Srijani | Wedding Reception Invitation 💍">
   <meta property="og:description" content="Join us to celebrate the Wedding Reception of Aritra & Srijani on Monday, December 14, 2026 at Taj Garden, Kamalgazi, Garia from 7:00 PM onwards.">
-  <meta property="og:image" content="assets/couple.jpg">
+  <meta property="og:image" content="assets/images/jaipur.png">
   <meta name="theme-color" content="#721121">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aritra & Srijani | Wedding Reception Invitation 💍">
   <meta name="twitter:description" content="Monday, Dec 14, 2026 • Taj Garden, Kamalgazi, Garia, Kolkata.">
-  <meta name="twitter:image" content="assets/couple.jpg">
+  <meta name="twitter:image" content="assets/images/jaipur.png">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
@@ -191,47 +191,52 @@
           <p class="section-desc">Two hearts, countless smiles, and a promise of forever. We can't wait to celebrate our special day with you!</p>
         </div>
 
-        <div class="couple-card-showcase reveal">
-          <div class="couple-art-frame">
-            <div class="art-glow"></div>
-            <img src="assets/couple.jpg" alt="Aritra and Srijani Cute Wedding Avatar" class="couple-img" id="couplePortrait">
-            <div class="couple-floating-tag left-tag">
-              <span>🤵</span> Aritra
+        <!-- Side-by-Side Bride & Groom Showcase Grid -->
+        <div class="couple-side-by-side-wrapper reveal">
+          
+          <!-- Groom Card -->
+          <div class="couple-portrait-card groom-card">
+            <div class="portrait-photo-frame">
+              <img src="assets/images/groom.jpg" alt="Aritra (Groom)" class="portrait-photo groom-photo" loading="eager" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src='assets/groom.jpg';}">
+              <div class="portrait-role-badge">
+                <span>🤵</span> The Groom
+              </div>
             </div>
-            <div class="couple-floating-tag right-tag">
-              <span>👰</span> Srijani
-            </div>
-          </div>
-
-          <div class="couple-bio-grid">
-            <!-- Groom Card -->
-            <div class="bio-card groom-card">
-              <div class="bio-avatar">🤵‍♂️</div>
-              <span class="bio-role">THE GROOM</span>
-              <h3 class="bio-name">Aritra</h3>
-              <p class="bio-text">Tech enthusiast, dreamer, and the one whose heart found its missing melody in Srijani's laughter.</p>
+            <div class="portrait-details">
+              <span class="portrait-role-tag">GROOM</span>
+              <h3 class="portrait-name">Aritra</h3>
+              <p class="portrait-bio">Tech enthusiast, dreamer, and the one whose heart found its missing melody in Srijani's laughter.</p>
               <div class="cute-tags">
                 <span class="cute-tag">✨ Big Smiles</span>
                 <span class="cute-tag">☕ Chai Lover</span>
                 <span class="cute-tag">💖 Ready for forever</span>
               </div>
             </div>
+          </div>
 
-            <!-- Heart Knot Card -->
-            <div class="bio-knot-card">
-              <div class="knot-circle">
-                <span class="knot-icon">💞</span>
-              </div>
-              <p class="knot-quote">"Together is our favorite place to be."</p>
-              <div class="knot-sub">Dec 14, 2026</div>
+          <!-- Central Wedding Knot / Date Divider -->
+          <div class="couple-center-divider">
+            <div class="center-heart-ring">
+              <span class="center-heart-icon">💞</span>
             </div>
+            <div class="center-divider-line"></div>
+            <div class="center-date-badge">14 • 12 • 2026</div>
+            <div class="center-divider-line"></div>
+            <p class="center-quote">"Together is our favorite place to be"</p>
+          </div>
 
-            <!-- Bride Card -->
-            <div class="bio-card bride-card">
-              <div class="bio-avatar">👰‍♀️</div>
-              <span class="bio-role">THE BRIDE</span>
-              <h3 class="bio-name">Srijani</h3>
-              <p class="bio-text">Radiant soul, full of warmth, artistic grace, and the happiest smile that brightens up Aritra's world.</p>
+          <!-- Bride Card -->
+          <div class="couple-portrait-card bride-card">
+            <div class="portrait-photo-frame">
+              <img src="assets/images/bride.jpg" alt="Srijani (Bride)" class="portrait-photo bride-photo" loading="eager" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src='assets/bride.jpg';}">
+              <div class="portrait-role-badge">
+                <span>👰</span> The Bride
+              </div>
+            </div>
+            <div class="portrait-details">
+              <span class="portrait-role-tag">BRIDE</span>
+              <h3 class="portrait-name">Srijani</h3>
+              <p class="portrait-bio">Radiant soul, full of warmth, artistic grace, and the happiest smile that brightens up Aritra's world.</p>
               <div class="cute-tags">
                 <span class="cute-tag">🌸 Sweetheart</span>
                 <span class="cute-tag">🎨 Creative Spirit</span>
@@ -376,7 +381,7 @@
 
         <div class="venue-showcase-card reveal">
           <div class="venue-image-wrapper">
-            <img src="assets/venue_bg.jpg" alt="Taj Garden Venue Atmosphere" class="venue-img">
+            <img src="https://tajgarden.in/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-11-at-1.56.31-AM-2.jpeg" alt="Taj Garden Venue Atmosphere" class="venue-img">
             <div class="venue-overlay-badge">
               <span>🏛️ Taj Garden</span>
             </div>
@@ -407,7 +412,7 @@
             </div>
 
             <div class="venue-actions">
-              <a href="https://www.google.com/maps/search/?api=1&query=Taj+Garden+Kamalgazi+Garia+Kolkata" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-large">
+              <a href="https://maps.app.goo.gl/pw3P4nERyKfgorFv6" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-large">
                 <span class="btn-icon">🗺️</span> Open In Google Maps
               </a>
               <button class="btn btn-outline" id="copyAddressBtn">
@@ -441,10 +446,10 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
-                <img src="assets/couple.jpg" alt="Aritra & Srijani Romantic Moment">
+                <img src="assets/images/watercolor kasauli.png" alt="Aritra & Srijani in Kasauli Hills">
               </div>
               <div class="polaroid-caption">
-                <p>When our smiles first aligned 💕</p>
+                <p>Hills of Kasauli & Sweet Moments 💕</p>
                 <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">❤️ <span class="like-count">128</span></button>
               </div>
             </div>
@@ -455,11 +460,11 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
-                <img src="assets/venue_bg.jpg" alt="Magical Venue Dreams">
+                <img src="assets/images/delhi.jpg" alt="Aritra & Srijani - Historic Wanderlust">
               </div>
               <div class="polaroid-caption">
-                <p>Dreaming of our special day 🏰</p>
-                <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">💖 <span class="like-count">94</span></button>
+                <p>Soulful Glances & Historic Wonders 🏛️</p>
+                <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">💖 <span class="like-count">142</span></button>
               </div>
             </div>
           </div>
@@ -469,10 +474,10 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
-                <img src="assets/couple.jpg" alt="Aritra & Srijani Forever">
+                <img src="assets/images/cafe.jpg" alt="Aritra & Srijani Cozy Cafe Date">
               </div>
               <div class="polaroid-caption">
-                <p>Forever & Always • Dec 14, 2026 🥂</p>
+                <p>Cozy Evenings & Warm Coffee Smiles ☕</p>
                 <button class="love-reaction-btn" title="Send Love" aria-label="Send Love">✨ <span class="like-count">156</span></button>
               </div>
             </div>
@@ -603,6 +608,7 @@
       <div class="tracker-groom" id="trackerGroom">🤵 Aritra</div>
       <div class="tracker-center-heart" id="trackerHeart">💖</div>
       <div class="tracker-bride" id="trackerBride">Srijani 👰</div>
+      <div class="tracker-merged" id="trackerMerged">💍 #ARISRI 💖</div>
     </div>
   </div>
 

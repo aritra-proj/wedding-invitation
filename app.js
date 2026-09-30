@@ -15,7 +15,7 @@ const WEDDING_CONFIG = {
   targetDate: new Date("2026-12-14T19:00:00+05:30").getTime(),
   venueName: "Taj Garden",
   venueAddress: "Taj Garden, Kamalgazi, Garia, Kolkata, West Bengal",
-  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Taj+Garden+Kamalgazi+Garia+Kolkata",
+  googleMapsUrl: "https://maps.app.goo.gl/pw3P4nERyKfgorFv6",
   timeText: "7:00 PM Onwards",
   formattedDate: "Monday, December 14, 2026",
 
@@ -743,31 +743,80 @@ function initScrollTracker() {
   const groomEl = document.getElementById("trackerGroom");
   const brideEl = document.getElementById("trackerBride");
   const heartEl = document.getElementById("trackerHeart");
+  const mergedEl = document.getElementById("trackerMerged");
 
-  window.addEventListener("scroll", () => {
-    const scrollTop = window.scrollY;
+  if (mergedEl) {
+    mergedEl.addEventListener("click", () => {
+      showToast("💖 #ARISRI — Together Forever & Always! ✨");
+    });
+  }
+
+  function updateTracker() {
+    const scrollTop = window.scrollY || window.pageYOffset;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercent = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
 
     if (progressBar) progressBar.style.width = `${scrollPercent}%`;
 
-    // Groom walks from 0% to 46%
-    const groomPos = (scrollPercent / 100) * 46;
-    if (groomEl) groomEl.style.left = `${groomPos}%`;
+    // Merge threshold where couple meets
+    const mergeThreshold = 92;
 
-    // Bride walks from 100% to 54%
-    const bridePos = (scrollPercent / 100) * 46;
-    if (brideEl) brideEl.style.right = `${bridePos}%`;
+    if (scrollPercent < mergeThreshold) {
+      const progress = scrollPercent / mergeThreshold; // 0 to 1
+      // Walks from 0% to ~48% towards the center
+      const posPercent = progress * 48;
 
-    // If reached bottom, celebrate with heart pulse
-    if (scrollPercent > 92 && heartEl) {
-      heartEl.style.opacity = "1";
-      heartEl.style.transform = "translateX(-50%) scale(1.4)";
-    } else if (heartEl) {
-      heartEl.style.opacity = "0.6";
-      heartEl.style.transform = "translateX(-50%) scale(1)";
+      if (groomEl) {
+        groomEl.style.opacity = "1";
+        groomEl.style.left = `${posPercent.toFixed(2)}%`;
+        groomEl.style.transform = `translateX(-${(progress * 50).toFixed(1)}%) scale(1)`;
+      }
+
+      if (brideEl) {
+        brideEl.style.opacity = "1";
+        brideEl.style.right = `${posPercent.toFixed(2)}%`;
+        brideEl.style.transform = `translateX(${(progress * 50).toFixed(1)}%) scale(1)`;
+      }
+
+      if (heartEl) {
+        heartEl.style.opacity = `${(0.3 + progress * 0.7).toFixed(2)}`;
+        heartEl.style.transform = `translateX(-50%) scale(${(0.9 + progress * 0.35).toFixed(2)})`;
+      }
+
+      if (mergedEl) {
+        mergedEl.style.opacity = "0";
+        mergedEl.style.transform = "translateX(-50%) scale(0.6)";
+        mergedEl.style.pointerEvents = "none";
+      }
+    } else {
+      // Merged #ARISRI celebration state when matched at bottom
+      if (groomEl) {
+        groomEl.style.opacity = "0";
+        groomEl.style.left = "48%";
+        groomEl.style.transform = "translateX(-50%) scale(0.4)";
+      }
+
+      if (brideEl) {
+        brideEl.style.opacity = "0";
+        brideEl.style.right = "48%";
+        brideEl.style.transform = "translateX(50%) scale(0.4)";
+      }
+
+      if (heartEl) {
+        heartEl.style.opacity = "0";
+      }
+
+      if (mergedEl) {
+        mergedEl.style.opacity = "1";
+        mergedEl.style.transform = "translateX(-50%) scale(1.08)";
+        mergedEl.style.pointerEvents = "auto";
+      }
     }
-  }, { passive: true });
+  }
+
+  window.addEventListener("scroll", updateTracker, { passive: true });
+  window.addEventListener("resize", updateTracker, { passive: true });
+  updateTracker();
 }
 
 
@@ -887,7 +936,8 @@ function initShareFeatures() {
         `You are cordially invited to celebrate the Wedding Reception of *Aritra & Srijani*!\n\n` +
         `📅 *Date:* Monday, 14th December 2026\n` +
         `⏰ *Time:* 7:00 PM Onwards\n` +
-        `📍 *Venue:* Taj Garden, Kamalgazi, Garia\n\n` +
+        `📍 *Venue:* Taj Garden, Kamalgazi, Garia\n` +
+        `🗺️ *Google Maps:* ${WEDDING_CONFIG.googleMapsUrl}\n\n` +
         `✨ Open our interactive invitation card here:\n${window.location.href}`
       );
       window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
