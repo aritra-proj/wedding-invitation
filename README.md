@@ -76,7 +76,7 @@ Your web page is integrated with Google Sheets so that guest wishes & RSVPs are 
 - **RSVP Status**
 - **Cute Sticker**
 - **Blessing Message**
-- **Device Type** (e.g. `Mobile (Android • Chrome)`, `Desktop (Windows • Edge)`, `Mobile (iOS • Safari)`)
+- **Device Type** (e.g. `📱 Mobile — Samsung Galaxy (SM-S928B) [Android 14 • Chrome • 412x915]`, `📱 Mobile — Apple iPhone 15 Pro [iOS 17.4 • Safari]`, `💻 Laptop — Windows 11 PC [Edge • 1920x1080]`)
 - **IP Address** (Client public IP)
 - **User Agent**
 

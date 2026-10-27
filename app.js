@@ -13,8 +13,8 @@ const WEDDING_CONFIG = {
   eventTitle: "Wedding Reception of Aritra & Srijani",
   // Target date: December 14, 2026, 19:00:00 IST (UTC+5:30)
   targetDate: new Date("2026-12-14T19:00:00+05:30").getTime(),
-  venueName: "Taj Garden",
-  venueAddress: "Taj Garden, Kamalgazi, Garia, Kolkata, West Bengal",
+  venueName: "Taj Garden (Tagore Hall)",
+  venueAddress: "Taj Garden (Tagore Hall), Kamalgazi, Garia, Kolkata, West Bengal",
   googleMapsUrl: "https://maps.app.goo.gl/pw3P4nERyKfgorFv6",
   timeText: "7:00 PM Onwards",
   formattedDate: "Monday, December 14, 2026",
@@ -566,7 +566,7 @@ function initGuestbook() {
 
       if (!guestName || !message) return;
 
-      const deviceType = detectDeviceType();
+      const deviceType = await detectDeviceDetails();
       const nowFormatted = "Just now";
 
       const newBlessing = {
@@ -674,36 +674,166 @@ async function saveBlessingToGoogleSheet(blessingData) {
 }
 
 /**
- * Detect client Device details (OS, Device Category, Browser)
+ * Detect rich client Device details (Specific Brand/Model, Form Factor, OS, Browser, Screen & Hardware Specs)
  */
-function detectDeviceType() {
+async function detectDeviceDetails() {
   const ua = navigator.userAgent || "";
-  let device = "Desktop";
+  let brandModel = "";
+  let formFactor = "Desktop / Laptop";
   let os = "Unknown OS";
   let browser = "Browser";
 
-  // Device Form Factor
-  if (/iPad|Tablet|PlayBook/i.test(ua)) {
-    device = "Tablet";
-  } else if (/Mobi|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
-    device = "Mobile";
+  // 1. Check Modern UserAgentData Client Hints (Chromium: Chrome, Edge, Samsung Internet, Opera)
+  let hintModel = "";
+  let hintPlatform = "";
+  let hintPlatformVersion = "";
+  if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === "function") {
+    try {
+      const hints = await navigator.userAgentData.getHighEntropyValues([
+        "model",
+        "platform",
+        "platformVersion"
+      ]);
+      if (hints.model) hintModel = hints.model.trim();
+      if (hints.platform) hintPlatform = hints.platform;
+      if (hints.platformVersion) hintPlatformVersion = hints.platformVersion;
+    } catch (e) {
+      // Fallback to UA string
+    }
   }
 
-  // Operating System
-  if (/iPhone|iPad|iPod/i.test(ua)) os = "iOS";
-  else if (/Android/i.test(ua)) os = "Android";
-  else if (/Windows NT/i.test(ua)) os = "Windows";
-  else if (/Mac OS X/i.test(ua)) os = "macOS";
-  else if (/Linux/i.test(ua)) os = "Linux";
+  // 2. Determine Operating System & Version
+  if (/iPhone|iPad|iPod/i.test(ua)) {
+    const match = ua.match(/OS (\d+[_\.]\d+)/i);
+    os = match ? `iOS ${match[1].replace(/_/g, ".")}` : "iOS";
+  } else if (/Android/i.test(ua)) {
+    const match = ua.match(/Android\s+([0-9\.]+)/i);
+    os = match ? `Android ${match[1]}` : (hintPlatform === "Android" ? "Android" : "Android");
+  } else if (/Windows NT/i.test(ua) || hintPlatform === "Windows") {
+    if (hintPlatformVersion) {
+      const major = parseInt(hintPlatformVersion.split(".")[0], 10);
+      os = major >= 13 ? "Windows 11" : "Windows 10";
+    } else if (/Windows NT 10.0/i.test(ua)) {
+      os = "Windows 10/11";
+    } else if (/Windows NT 6.3/i.test(ua)) {
+      os = "Windows 8.1";
+    } else if (/Windows NT 6.1/i.test(ua)) {
+      os = "Windows 7";
+    } else {
+      os = "Windows";
+    }
+  } else if (/Mac OS X/i.test(ua) || hintPlatform === "macOS") {
+    const match = ua.match(/Mac OS X (\d+[_\.]\d+)/i);
+    os = match ? `macOS ${match[1].replace(/_/g, ".")}` : "macOS";
+  } else if (/CrOS/i.test(ua)) {
+    os = "Chrome OS";
+  } else if (/Linux/i.test(ua)) {
+    os = "Linux";
+  }
 
-  // Browser
-  if (/Edg/i.test(ua)) browser = "Edge";
+  // 3. Detect Form Factor & Specific Brand / Model
+  const isTouch = navigator.maxTouchPoints > 0;
+  const screenW = window.screen.width;
+  const screenH = window.screen.height;
+  const ratio = window.devicePixelRatio || 1;
+  const minDim = Math.min(screenW, screenH);
+  const maxDim = Math.max(screenW, screenH);
+
+  // Apple iPad
+  if (/iPad/i.test(ua) || (os.includes("iOS") && minDim >= 600) || (/MacIntel/i.test(navigator.platform) && isTouch)) {
+    formFactor = "📟 Tablet";
+    brandModel = "Apple iPad";
+  }
+  // Apple iPhone
+  else if (/iPhone/i.test(ua)) {
+    formFactor = "📱 Mobile";
+    if (maxDim >= 932 && ratio >= 3) {
+      brandModel = "Apple iPhone (14/15/16 Pro Max / Plus)";
+    } else if (maxDim >= 852 && ratio >= 3) {
+      brandModel = "Apple iPhone (14/15/16 Pro / 15/16)";
+    } else if (maxDim >= 844 && ratio >= 3) {
+      brandModel = "Apple iPhone (12/13/14 Series)";
+    } else if (maxDim >= 926 && ratio >= 3) {
+      brandModel = "Apple iPhone (12/13 Pro Max / 14 Plus)";
+    } else if (maxDim >= 896) {
+      brandModel = ratio >= 3 ? "Apple iPhone (11 Pro Max / XS Max)" : "Apple iPhone (11 / XR)";
+    } else if (maxDim >= 812) {
+      brandModel = "Apple iPhone (X / XS / 11 Pro / Mini)";
+    } else if (maxDim >= 667) {
+      brandModel = "Apple iPhone (SE / 8 / 7)";
+    } else {
+      brandModel = "Apple iPhone";
+    }
+  }
+  // Android Phone / Tablet
+  else if (/Android/i.test(ua) || hintPlatform === "Android") {
+    const isTablet = /Tablet/i.test(ua) || minDim >= 600;
+    formFactor = isTablet ? "📟 Tablet" : "📱 Mobile";
+
+    let rawModel = hintModel;
+    if (!rawModel) {
+      const match = ua.match(/Android[^;]+;\s*([^;)]+)\s*(?:Build|[;)])/i);
+      if (match && match[1]) {
+        rawModel = match[1].trim();
+      }
+    }
+
+    if (rawModel) {
+      if (/^SM-|^GT-|^SCH-/i.test(rawModel)) {
+        brandModel = `Samsung Galaxy (${rawModel})`;
+      } else if (/Pixel/i.test(rawModel)) {
+        brandModel = `Google ${rawModel}`;
+      } else if (/CPH|OnePlus|IN20|GM19|KB20|NE22/i.test(rawModel)) {
+        brandModel = `OnePlus (${rawModel})`;
+      } else if (/Redmi|POCO|Xiaomi|220|221|230|231|240|241/i.test(rawModel)) {
+        brandModel = `Xiaomi / Redmi (${rawModel})`;
+      } else if (/^V2|^V1|vivo/i.test(rawModel)) {
+        brandModel = `Vivo (${rawModel})`;
+      } else if (/^RMX/i.test(rawModel)) {
+        brandModel = `Realme (${rawModel})`;
+      } else if (/moto|^XT/i.test(rawModel)) {
+        brandModel = `Motorola (${rawModel})`;
+      } else {
+        brandModel = rawModel;
+      }
+    } else {
+      brandModel = isTablet ? "Android Tablet" : "Android Smartphone";
+    }
+  }
+  // Laptops / Desktops
+  else {
+    const isMac = os.includes("macOS");
+    if (isMac) {
+      formFactor = "💻 Mac";
+      brandModel = ratio >= 2 ? "Apple MacBook (Retina)" : "Apple Mac / iMac";
+    } else if (os.includes("Chrome OS")) {
+      formFactor = "💻 Chromebook";
+      brandModel = hintModel ? `Chromebook (${hintModel})` : "Chromebook";
+    } else {
+      formFactor = isTouch ? "💻 Laptop / 2-in-1 (Touchscreen)" : "🖥️ Desktop / Laptop";
+      brandModel = hintModel ? `PC (${hintModel})` : `${os} PC`;
+    }
+  }
+
+  // 4. Browser detection
+  if (/SamsungBrowser/i.test(ua)) browser = "Samsung Internet";
+  else if (/Edg/i.test(ua)) browser = "Edge";
   else if (/Chrome/i.test(ua)) browser = "Chrome";
   else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
   else if (/Firefox/i.test(ua)) browser = "Firefox";
+  else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+  else if (/UCBrowser/i.test(ua)) browser = "UC Browser";
 
-  return `${device} (${os} • ${browser})`;
+  // 5. Hardware Specs (Screen Resolution, CPU Cores)
+  const screenStr = `${screenW}x${screenH}`;
+  const cores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency}-Core` : "";
+  const hwInfo = [screenStr, cores].filter(Boolean).join(" • ");
+
+  return `${formFactor} — ${brandModel} [${os} • ${browser} • ${hwInfo}]`;
 }
+
+// Backwards-compatible alias
+const detectDeviceType = detectDeviceDetails;
 
 /**
  * Detect Client Public IP Address
