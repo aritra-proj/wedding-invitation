@@ -26,10 +26,12 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Great+Vibes&family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Name fonts use display=block: text waits briefly for the real font instead of showing a stand-in and swapping (the "flicker") -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Great+Vibes&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -439,6 +441,7 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
+                <img class="polaroid-backdrop" src="assets/images/web/aashirwad.jpg" alt="" aria-hidden="true" loading="lazy">
                 <img src="assets/images/web/aashirwad.jpg" alt="Aritra & Srijani - Aashirwad Ceremony" loading="lazy" onerror="this.onerror=null;this.src='assets/images/aashirwad.jpg';">
               </div>
               <div class="polaroid-caption">
@@ -453,6 +456,7 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
+                <img class="polaroid-backdrop" src="assets/images/web/delhi.jpg" alt="" aria-hidden="true" loading="lazy">
                 <img src="assets/images/web/delhi.jpg" alt="Aritra & Srijani - Historic Wanderlust" loading="lazy" onerror="this.onerror=null;this.src='assets/images/delhi.jpg';">
               </div>
               <div class="polaroid-caption">
@@ -467,6 +471,7 @@
             <div class="polaroid-inner">
               <div class="polaroid-pin">📌</div>
               <div class="polaroid-img-box">
+                <img class="polaroid-backdrop" src="assets/images/web/cafe.jpg" alt="" aria-hidden="true" loading="lazy">
                 <img src="assets/images/web/cafe.jpg" alt="Aritra & Srijani Cozy Cafe Date" loading="lazy" onerror="this.onerror=null;this.src='assets/images/cafe.jpg';">
               </div>
               <div class="polaroid-caption">
@@ -604,6 +609,6 @@
   </div>
 
   <!-- Main JavaScript File -->
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

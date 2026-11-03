@@ -141,17 +141,18 @@ function initUnveilExperience() {
     // Open envelope flap
     envelope.classList.add("opened-flap");
 
-    // After slight delay, open velvet curtains and fade overlay
+    // Let the letter be fully seen (fades in by ~0.75s) before opening the curtains and fading the overlay.
+    // Opening at 600ms started fading the letter before it had appeared, so the names flickered.
     setTimeout(() => {
       overlay.classList.add("opened");
       showToast("🌸 Welcome to Aritra & Srijani's Wedding Celebration! ✨");
       fireConfetti();
-    }, 600);
+    }, 1600);
 
-    // Cleanup overlay from DOM after transition
+    // Cleanup overlay from DOM after transition (0.35s delay + 1.1s fade)
     setTimeout(() => {
       overlay.style.display = "none";
-    }, 2200);
+    }, 3200);
   }
 
   // Click on wax seal or envelope
