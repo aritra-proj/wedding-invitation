@@ -30,6 +30,39 @@ let arePetalsActive = true;
 let selectedSticker = "💖 Loads of Love!";
 let clientIpAddress = "Detecting...";
 
+
+// ==========================================================================
+// REFRESH = START OVER FROM THE TOP
+// A reload should show the envelope again and land at the top, not restore the
+// old scroll position or jump to a #section left in the URL by an earlier tap.
+// ==========================================================================
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+function isPageReload() {
+  try {
+    const nav = performance.getEntriesByType("navigation")[0];
+    if (nav) return nav.type === "reload";
+    return !!(performance.navigation && performance.navigation.type === 1);
+  } catch (err) {
+    return false;
+  }
+}
+
+// Bypasses the CSS smooth scrolling so the jump is immediate
+function jumpToTop() {
+  try {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  } catch (err) {
+    window.scrollTo(0, 0);
+  }
+}
+
+if (isPageReload() && window.location.hash) {
+  history.replaceState(null, "", window.location.pathname + window.location.search);
+}
+
 // Pre-loaded Blessings for initial charm
 const initialBlessings = [
   {
@@ -60,6 +93,9 @@ const initialBlessings = [
 // DOM CONTENT LOADED INITIALIZATION
 // ==========================================================================
 document.addEventListener("DOMContentLoaded", () => {
+  // Shared deep links (e.g. ...#venue) still open at that section; everything else starts at the top
+  if (!window.location.hash) jumpToTop();
+
   initUnveilExperience();
   initCountdown();
   initPetalCanvas();
@@ -71,6 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initMusicController();
   initShareFeatures();
   initScrollAnimations();
+});
+
+// Some browsers re-apply the old scroll position once everything has loaded
+window.addEventListener("load", () => {
+  if (!isOverlayOpen && !window.location.hash) jumpToTop();
 });
 
 
@@ -86,6 +127,9 @@ function initUnveilExperience() {
   function triggerOpen() {
     if (isOverlayOpen) return;
     isOverlayOpen = true;
+
+    // A swipe on the envelope can scroll the page underneath; always reveal from the top
+    if (!window.location.hash) jumpToTop();
 
     // Play subtle opening chime
     playHarpChime();
@@ -488,6 +532,9 @@ function initGuestbook() {
   const countBadge = document.getElementById("blessingCountBadge");
   const stickerBtns = document.querySelectorAll(".sticker-btn");
   const submitBtn = document.getElementById("submitBlessingBtn");
+
+  // Some browsers (e.g. Firefox) refill typed form values after a refresh; start clean
+  if (form) form.reset();
 
   // Fetch client IP in background
   detectClientIp();
@@ -893,8 +940,12 @@ function initScrollTracker() {
 
     if (scrollPercent < mergeThreshold) {
       const progress = scrollPercent / mergeThreshold; // 0 to 1
-      // Walks from 0% to ~48% towards the center
-      const posPercent = progress * 48;
+      // Walk towards the centre, stopping where the name pills would touch the heart
+      // (on a phone-width track the old fixed 48% made the pills overlap for the last third)
+      const trackWidth = progressBar && progressBar.parentElement ? progressBar.parentElement.clientWidth : 0;
+      const pillWidth = Math.max(groomEl ? groomEl.offsetWidth : 0, brideEl ? brideEl.offsetWidth : 0);
+      const maxWalk = trackWidth > 0 ? ((trackWidth / 2 - 14 - pillWidth / 2) / trackWidth) * 100 : 48;
+      const posPercent = progress * Math.max(0, Math.min(48, maxWalk));
 
       if (groomEl) {
         groomEl.style.opacity = "1";

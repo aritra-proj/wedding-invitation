@@ -25,10 +25,14 @@
   --radius-md: 16px;
   --radius-lg: 28px;
   --font-script: 'Great Vibes', cursive;
-  --font-royal: 'Cinzel Decorative', serif;
+  /* Plain Cinzel: Cinzel Decorative's swash letters interlock (e.g. "&" runs into the next letter) */
+  --font-royal: 'Cinzel', serif;
   --font-serif: 'Playfair Display', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-marcellus: 'Marcellus', serif;
+
+  /* Keep the designed colours; stop browsers from auto-darkening the page */
+  color-scheme: only light;
 }
 
 /* Reset & Base Setup */
@@ -52,6 +56,12 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Buttons & form controls don't inherit the page font by default */
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 /* Background canvas for petals */
@@ -191,6 +201,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* excludes the mobile address bar so the envelope stays centred */
   z-index: 100;
   display: flex;
   align-items: center;
@@ -210,7 +221,7 @@ body {
 .curtain {
   position: absolute;
   top: 0;
-  height: 100vh;
+  height: 100%;
   width: 50%;
   z-index: 101;
   transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1);
@@ -221,14 +232,14 @@ body {
   left: 0;
   transform-origin: left center;
   background: radial-gradient(circle at 30% 40%, #8B1E3F 0%, #590918 60%, #30030C 100%);
-  border-right: 2px solid var(--gold-primary);
+  border-right: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 .curtain-right {
   right: 0;
   transform-origin: right center;
   background: radial-gradient(circle at 70% 40%, #8B1E3F 0%, #590918 60%, #30030C 100%);
-  border-left: 2px solid var(--gold-primary);
+  border-left: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 .curtain-fabric {
@@ -274,8 +285,12 @@ body {
 }
 
 .royal-envelope {
-  width: 340px;
-  height: 230px;
+  /* Size in variables so the flap triangle and seal follow the envelope on narrow phones */
+  --env-w: min(340px, calc(100vw - 40px));
+  --env-h: 270px;
+  --flap-h: 130px;
+  width: var(--env-w);
+  height: var(--env-h);
   background: #FFFDF9;
   border-radius: 14px;
   position: relative;
@@ -290,8 +305,9 @@ body {
 
 @media (min-width: 600px) {
   .royal-envelope {
-    width: 440px;
-    height: 290px;
+    --env-w: 440px;
+    --env-h: 330px;
+    --flap-h: 165px;
   }
 }
 
@@ -307,21 +323,13 @@ body {
   left: 0;
   width: 100%;
   height: 0;
-  border-left: 170px solid transparent;
-  border-right: 170px solid transparent;
-  border-top: 130px solid #F3EBD8;
+  border-left: calc(var(--env-w) / 2) solid transparent;
+  border-right: calc(var(--env-w) / 2) solid transparent;
+  border-top: var(--flap-h) solid #F3EBD8;
   transform-origin: top;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 5;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
-}
-
-@media (min-width: 600px) {
-  .envelope-flap {
-    border-left-width: 220px;
-    border-right-width: 220px;
-    border-top-width: 165px;
-  }
 }
 
 .royal-envelope.opened-flap .envelope-flap {
@@ -345,6 +353,19 @@ body {
   padding: 15px;
   z-index: 2;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  /* The letter only shows once the flap opens; while closed it peeked out under the badge */
+  opacity: 0;
+  transition: opacity 0.5s ease 0.2s;
+}
+
+.royal-envelope.opened-flap .letter-card-preview {
+  opacity: 1;
+}
+
+.royal-envelope.opened-flap .envelope-front,
+.royal-envelope.opened-flap .wax-seal-btn {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .preview-ornament {
@@ -384,8 +405,16 @@ body {
   z-index: 4;
   pointer-events: none;
   display: flex;
-  align-items: center;
+  /* Badge sits in the lower half, below the flap tip and the wax seal */
+  align-items: flex-end;
   justify-content: center;
+  padding-bottom: 16px;
+}
+
+@media (min-width: 600px) {
+  .envelope-front {
+    padding-bottom: 26px;
+  }
 }
 
 .envelope-invitation-badge {
@@ -428,7 +457,7 @@ body {
 /* Wax Seal */
 .wax-seal-btn {
   position: absolute;
-  top: 50%;
+  top: var(--flap-h); /* on the flap tip, like a real sealed envelope */
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
@@ -518,6 +547,7 @@ body {
   color: var(--gold-light);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   animation: glowText 2s ease-in-out infinite alternate;
+  text-wrap: balance;
 }
 
 @keyframes glowText {
@@ -606,6 +636,7 @@ body {
   font-weight: 700;
   margin-bottom: 10px;
   line-height: 1.25;
+  text-wrap: balance;
 }
 
 @media (min-width: 768px) {
@@ -789,6 +820,7 @@ body {
   color: var(--text-muted);
   margin-bottom: 20px;
   font-weight: 400;
+  text-wrap: balance;
 }
 
 .couple-names-wrapper {
@@ -926,6 +958,11 @@ body {
   align-items: center;
 }
 
+/* Grid items default to min-width:auto, which let the cards overflow 360px phones */
+.couple-side-by-side-wrapper > * {
+  min-width: 0;
+}
+
 @media (min-width: 860px) {
   .couple-side-by-side-wrapper {
     grid-template-columns: 1fr auto 1fr;
@@ -957,8 +994,6 @@ body {
   position: relative;
   width: 100%;
   max-width: 320px;
-  height: 420px;
-  aspect-ratio: 3 / 4;
   border-radius: 22px;
   overflow: hidden;
   border: 3.5px solid var(--gold-primary);
@@ -968,26 +1003,16 @@ body {
   flex-shrink: 0;
 }
 
+/* Photo keeps its own shape and the frame follows it, so the whole photo always shows */
 .portrait-photo {
   width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
   transition: transform 0.5s ease;
 }
 
 .couple-portrait-card:hover .portrait-photo {
   transform: scale(1.04);
-}
-
-.groom-photo {
-  object-position: center 12%;
-}
-
-.bride-photo {
-  object-position: center 15%;
 }
 
 .portrait-role-badge {
@@ -1132,6 +1157,12 @@ body {
 
 .text-gold {
   color: var(--gold-light) !important;
+}
+
+/* Default badge is crimson-on-cream; on the dark countdown band it needs gold */
+.countdown-section .section-badge {
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.12);
 }
 
 .countdown-subtitle {
@@ -1355,12 +1386,16 @@ body {
 .venue-image-wrapper {
   position: relative;
   min-height: 280px;
+  background: #F6EEE4; /* soft mat around the photo where its shape differs from the column */
 }
 
+/* Show the whole photo (fit inside the column rather than cropping it) */
 .venue-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -1399,6 +1434,7 @@ body {
   color: var(--primary-crimson);
   line-height: 1.1;
   margin-bottom: 10px;
+  text-wrap: balance;
 }
 
 .venue-address {
@@ -1459,6 +1495,7 @@ body {
   gap: 30px;
   max-width: 960px;
   margin: 0 auto;
+  align-items: start; /* photos keep their own heights now */
 }
 
 @media (min-width: 768px) {
@@ -1476,9 +1513,12 @@ body {
 .polaroid-tilt-2 { transform: rotate(1.5deg); }
 .polaroid-tilt-3 { transform: rotate(-1.5deg); }
 
-.polaroid-card:hover {
-  transform: scale(1.06) rotate(0deg) !important;
-  z-index: 10;
+/* Hover zoom only with a real pointer, so it doesn't "stick" after a tap on phones */
+@media (hover: hover) {
+  .polaroid-card:hover {
+    transform: scale(1.06) rotate(0deg) !important;
+    z-index: 10;
+  }
 }
 
 .polaroid-inner {
@@ -1499,9 +1539,9 @@ body {
   z-index: 5;
 }
 
+/* Box follows the photo's own shape, so the whole photo shows (the fixed 4:5 box cropped wide photos) */
 .polaroid-img-box {
   width: 100%;
-  aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 4px;
   background: #ECE6DC;
@@ -1509,9 +1549,9 @@ body {
 }
 
 .polaroid-img-box img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transition: transform 0.6s ease;
 }
 
@@ -1531,6 +1571,7 @@ body {
   font-size: 1.4rem;
   color: var(--primary-crimson);
   line-height: 1.1;
+  text-wrap: balance;
 }
 
 .love-reaction-btn {
@@ -1539,8 +1580,12 @@ body {
   border-radius: 20px;
   padding: 4px 10px;
   font-size: 0.8rem;
+  color: var(--primary-crimson);
   cursor: pointer;
   transition: all 0.2s;
+  /* keep emoji + count on one line instead of being squeezed by the caption */
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .love-reaction-btn:hover {
@@ -1660,6 +1705,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid #EFE4D3;
@@ -1678,6 +1724,8 @@ body {
   color: #381B00;
   padding: 4px 12px;
   border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .blessing-cards-list {
@@ -1713,8 +1761,10 @@ body {
 
 .guest-card-top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2px 12px;
   margin-bottom: 6px;
 }
 
@@ -1727,6 +1777,7 @@ body {
 .guest-card-time {
   font-size: 0.72rem;
   color: #999;
+  white-space: nowrap;
 }
 
 .guest-card-badges {
@@ -1987,8 +2038,12 @@ body {
    ========================================================================== */
 .toast-notification {
   position: fixed;
-  top: 20px;
+  top: max(16px, env(safe-area-inset-top));
   left: 50%;
+  /* left:50% alone limits the width to half the screen, squashing the text on phones */
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  text-align: center;
   transform: translateX(-50%) translateY(-100px);
   background: rgba(58, 9, 18, 0.95);
   color: #FFFDF9;
@@ -2057,4 +2112,209 @@ body {
 @keyframes zoomIn {
   from { opacity: 0; transform: scale(0.85); }
   to { opacity: 1; transform: scale(1); }
+}
+
+
+/* ==========================================================================
+   PHONES (≤ 600px)
+   ========================================================================== */
+@media (max-width: 600px) {
+  .section {
+    padding: 64px 16px;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 7.5vw, 2.2rem);
+  }
+
+  /* Hero */
+  .hero-section {
+    /* leave room for the scroll arrow above the fixed bottom tracker bar */
+    padding: 56px 16px 110px;
+  }
+
+  .hero-scroll-indicator {
+    bottom: 52px;
+  }
+
+  /* The tag wraps to two lines here, stranding the side dashes at the screen edges */
+  .golden-dash {
+    display: none;
+  }
+
+  .intro-tag {
+    letter-spacing: 1.5px;
+    text-wrap: balance;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    /* keep clear of the floating music/petal buttons on the right */
+    max-width: min(300px, calc(100vw - 116px));
+    margin: 0 auto;
+  }
+
+  /* Floating music / petal buttons */
+  .floating-controls {
+    bottom: 54px;
+    right: 12px;
+    gap: 8px;
+  }
+
+  .control-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Couple cards */
+  .couple-portrait-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* Countdown: four boxes must fit on one row down to 320px */
+  .timer-grid {
+    gap: clamp(3px, 1.4vw, 10px);
+  }
+
+  .timer-circle {
+    width: clamp(54px, 15.5vw, 70px);
+    height: clamp(54px, 15.5vw, 70px);
+    border-radius: 16px;
+  }
+
+  .timer-number {
+    font-size: clamp(1.3rem, 5.4vw, 1.8rem);
+  }
+
+  .timer-label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+  }
+
+  .timer-colon {
+    font-size: 1.3rem;
+  }
+
+  .calendar-actions,
+  .venue-actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  /* Venue */
+  /* Single column on phones: the photo simply takes its own height, shown whole */
+  .venue-image-wrapper {
+    min-height: 0;
+  }
+
+  .venue-img {
+    position: static;
+    height: auto;
+  }
+
+  .venue-overlay-badge {
+    left: 12px;
+    bottom: 12px;
+    font-size: 0.95rem;
+  }
+
+  .venue-details-content {
+    padding: 26px 20px;
+  }
+
+  .venue-name {
+    font-size: 1.8rem;
+  }
+
+  /* Polaroids */
+  .polaroid-tilt-1 { transform: rotate(-1.2deg); }
+  .polaroid-tilt-2 { transform: rotate(1deg); }
+  .polaroid-tilt-3 { transform: rotate(-1deg); }
+
+  .polaroid-caption p {
+    font-size: 1.3rem;
+  }
+
+  .love-reaction-btn {
+    min-height: 36px;
+    padding: 6px 12px;
+  }
+
+  /* Blessings form */
+  .blessing-form-card,
+  .blessing-wall-container {
+    padding: 26px 18px;
+  }
+
+  .form-title {
+    text-wrap: balance;
+  }
+
+  /* 16px stops iOS Safari from zooming in when a field is tapped */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+  }
+
+  .sticker-btn {
+    min-height: 36px;
+    padding: 7px 12px;
+  }
+
+  /* Footer */
+  .footer-title {
+    font-size: clamp(2.4rem, 11vw, 3.5rem);
+  }
+
+  .footer-date {
+    letter-spacing: 1px;
+  }
+
+  .toast-notification {
+    font-size: 0.88rem;
+    padding: 10px 18px;
+  }
+}
+
+
+/* Touch screens: no hover, so don't leave cards stuck "lifted" after a tap */
+@media (hover: none) {
+  .couple-portrait-card:hover,
+  .event-card:hover {
+    transform: none;
+  }
+}
+
+
+/* ==========================================================================
+   DARK MODE: KEEP THE DESIGNED COLOURS
+   Chrome / Android WebView / Safari honour `color-scheme: only light` and won't
+   auto-darken. Some browsers (e.g. Samsung Internet) instead skip their forced
+   dark mode only when a site ships its own prefers-color-scheme styles, so we
+   ship one that simply re-asserts the normal theme.
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: only light;
+  }
+
+  html,
+  body {
+    background-color: var(--bg-champagne);
+    color: var(--text-dark);
+  }
 }
